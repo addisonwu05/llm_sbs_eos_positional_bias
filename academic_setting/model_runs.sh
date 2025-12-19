@@ -12,12 +12,12 @@ gemini_models=("gemini-2.5-flash")
 together_models=("Qwen/Qwen2.5-72B-Instruct-Turbo" "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8")
 
 # ---- Paths to experiment scripts ----
-EOS_SCRIPT="/Users/addisonwu/Desktop/llm_sbs_eos_positional_bias/academic_setting/eos.py"
-SBS_SCRIPT="/Users/addisonwu/Desktop/llm_sbs_eos_positional_bias/academic_setting/sbs.py"
+EOS_SCRIPT="/Users/addisonwu/Desktop/llm_sbs_eos_positional_bias/misconduct_setting/eos.py"
+SBS_SCRIPT="/Users/addisonwu/Desktop/llm_sbs_eos_positional_bias/misconduct_setting/sbs.py"
 
 # ---- Config ----
 NUM_RUNS=30
-LOG_DIR="/Users/addisonwu/Desktop/llm_sbs_eos_positional_bias/academic_setting/logs"
+LOG_DIR="/Users/addisonwu/Desktop/llm_sbs_eos_positional_bias/misconduct_setting/logs"
 mkdir -p "$LOG_DIR"
 
 # ---- Helper function ----

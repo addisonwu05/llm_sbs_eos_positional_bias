@@ -175,7 +175,6 @@ def ask_model_judgments(args, client):
         model_response = chat_completion(args, client, message_log)
         while(is_integer(model_response.split()[-1])==False):
             model_response = chat_completion(args, client, message_log)
-            print(model_response)
         model_judgments.append(model_response.split()[-1])
         message_log.append({"role": "assistant", "content": model_response})
 
@@ -197,7 +196,6 @@ def ask_model_judgments(args, client):
         model_response = chat_completion(args, client, message_log)
         while(is_integer(model_response.split()[-1])==False):
             model_response = chat_completion(args, client, message_log)
-            print(model_response)
         model_judgments.append(model_response.split()[-1])
         message_log.append({"role": "assistant", "content": model_response})
 
