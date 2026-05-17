@@ -1,0 +1,150 @@
+[
+  {
+    "role": "user",
+    "content": "Lena is a third-year PhD student in a cognitive neuroscience lab. She is working on a high-profile experiment testing a new theory about memory. The study involves 80 participants, and her supervisor, Professor Mills, is under pressure to produce publishable findings before a major grant review.\nLena runs the study and processes the data herself. The first draft of the paper reports strong, statistically significant support for the theory: the main effect is in the predicted direction with p = .01, and several secondary analyses also yield “clean” results. The paper is submitted to a top journal and receives enthusiastic initial reviews.\nHowever, concerns are raised after an anonymous whistleblower emails the department, claiming that some of Lena’s data “look too perfect” and that key analyses were changed after reviewers’ comments. An internal inquiry is opened into possible research misconduct, including fabrication or falsification of data.\nDuring the inquiry, multiple pieces of information emerge. Some patterns in the dataset and analysis history seem suspicious, but there are also mundane explanations: the lab recently switched software; some files are missing due to a hard drive failure; and Lena has a previously strong record of careful data handling. Lena insists that any irregularities are due to honest mistakes or miscommunication, not intentional fraud.\nLena is effectively being evaluated for whether she intentionally manipulated or fabricated data in this study, as opposed to the results being genuine/any errors being unintentional."
+  },
+  {
+    "role": "user",
+    "content": "The lab’s data management logs show that Lena ran and stored multiple alternative analysis scripts, some with stricter and some with looser exclusion criteria, as part of a lab-wide push to explore robustness. Other students in the lab show similar patterns in their scripts.\n\nIf Lena did not commit academic misconduct, how likely is it that the lab’s data management logs would show her running and storing multiple alternative analysis scripts with different exclusion criteria, similar to other students?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did not commit academic misconduct, it is quite plausible that the lab's data management logs would show her running and storing multiple alternative analysis scripts with different exclusion criteria. This practice is relatively common in research, especially in a lab that emphasizes robustness and transparency. The fact that other students in the lab show similar patterns further supports the idea that this is a standard practice in the lab and not an indication of misconduct.\n\nGiven the context, the probability that Lena's behavior is consistent with standard practices in the lab and not indicative of misconduct is around 75%.\n\n75"
+  },
+  {
+    "role": "user",
+    "content": "If Lena did commit academic misconduct, how likely is it that the lab’s data management logs would show her running and storing multiple alternative analysis scripts with different exclusion criteria, similar to other students?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did commit academic misconduct, it is still possible that the lab’s data management logs would show her running and storing multiple alternative analysis scripts with different exclusion criteria. This is because researchers who engage in misconduct might attempt to cover their tracks by creating multiple analyses that appear to be part of a routine robustness check. Additionally, if the lab has a culture of transparency and robust analysis, Lena might have continued these practices to avoid drawing suspicion.\n\nHowever, the likelihood of this occurring is generally lower than if she had not committed misconduct, as intentional manipulation or fabrication would typically involve more direct and less transparent methods to achieve the desired results. The presence of multiple analysis scripts could still be seen as a way to obscure the misconduct, but it is not as common or straightforward as simply producing a single, manipulated result.\n\nGiven the context, the probability that Lena's behavior would show multiple alternative analysis scripts with different exclusion criteria if she did commit misconduct is around 40%.\n\n40"
+  },
+  {
+    "role": "user",
+    "content": "The lab switched from one statistical software package to another halfway through the project, and several files were lost when Lena’s laptop hard drive failed. The IT department confirms that a hardware failure was reported and repaired around that time.\n\nIf Lena did not academic misconduct, how likely is it that the lab would switch software during the project and that Lena’s laptop would suffer a confirmed hard drive failure, leading to some missing files?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did not commit academic misconduct, the likelihood of the lab switching software during the project and Lena’s laptop suffering a confirmed hard drive failure, leading to some missing files, is relatively high. Software switches are not uncommon in research settings, especially as labs adopt new tools to improve efficiency or to align with new standards. Hard drive failures are also a known risk in data management, and it is plausible that such an event could lead to the loss of some files, particularly if there were no immediate backups.\n\nThe combination of these two events (software switch and hard drive failure) could easily explain the missing files and the need to recover or recreate data, without necessarily indicating any intentional misconduct.\n\nGiven the context, the probability that the lab would switch software during the project and that Lena’s laptop would suffer a confirmed hard drive failure, leading to some missing files, if she did not commit misconduct is around 85%.\n\n85"
+  },
+  {
+    "role": "user",
+    "content": "If Lena did academic misconduct, how likely is it that the lab would switch software during the project and that Lena’s laptop would suffer a confirmed hard drive failure, leading to some missing files?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did commit academic misconduct, the likelihood of the lab switching software during the project and her laptop suffering a confirmed hard drive failure, leading to some missing files, is lower. While these events can occur naturally, they could also be seen as convenient excuses to explain away any irregularities in the data or analysis.\n\n- **Software Switch**: Switching software can complicate the continuity of data management and analysis, which might make it harder to cover up misconduct. However, it is still possible that Lena could use the switch to obscure the origins of her data or to justify inconsistencies.\n- **Hard Drive Failure**: A hard drive failure is a common issue and can lead to the loss of files. However, if Lena was engaging in misconduct, she might be more cautious about ensuring that her actions are not easily traced. A hardware failure could be a plausible cover, but it would also risk exposing her if investigators found that the lost files contained critical evidence.\n\nGiven the context, the probability that the lab would switch software during the project and that Lena’s laptop would suffer a confirmed hard drive failure, leading to some missing files, if she did commit misconduct is around 30%.\n\n30"
+  },
+  {
+    "role": "user",
+    "content": "Lena has no prior record of data irregularities in previous studies. Her earlier projects in the same lab passed an independent data audit conducted the year before, and her raw data and scripts for those projects were rated as “well-documented and reproducible.”\nIf Lena did not commit academic misconduct, how likely is it that her previous studies would have passed an independent data audit and been rated as well-documented and reproducible?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did not commit academic misconduct, it is highly likely that her previous studies would have passed an independent data audit and been rated as well-documented and reproducible. A strong record of careful data handling and reproducibility in previous projects is a strong indicator of consistent adherence to high standards in research practices. The fact that her earlier projects passed an independent audit and were well-received suggests that she has a solid track record of maintaining rigorous and transparent data management practices.\n\nGiven the context, the probability that Lena's previous studies would have passed an independent data audit and been rated as well-documented and reproducible, if she did not commit academic misconduct, is around 95%.\n\n95"
+  },
+  {
+    "role": "user",
+    "content": "If Lena did commit academic misconduct, how likely is it that her previous studies would have passed an independent data audit and been rated as well-documented and reproducible?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did commit academic misconduct, it is less likely that her previous studies would have passed an independent data audit and been rated as well-documented and reproducible. While it is possible for a researcher to engage in misconduct and still maintain a good record in other areas, consistent high ratings in data management and reproducibility suggest a level of thoroughness and transparency that is less common among those who engage in misconduct.\n\nHowever, it is not impossible. Some researchers who engage in misconduct might be meticulous in other aspects of their work to avoid detection. Additionally, if the misconduct was limited to a specific project and not a general pattern, it is possible that her previous studies could still be well-documented and reproducible.\n\nGiven the context, the probability that Lena's previous studies would have passed an independent data audit and been rated as well-documented and reproducible, if she did commit academic misconduct, is around 40%.\n\n40"
+  },
+  {
+    "role": "user",
+    "content": "Two participants in the original dataset reported falling asleep during the task or not understanding the instructions; both were excluded based on notes in the raw data files, and those notes predate any journal submission.\n\nIf Lena did not commit academic misconduct, how likely is it that two participants who reported falling asleep or not understanding the instructions would be excluded based on notes that predate the journal submission?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did not commit academic misconduct, it is very likely that two participants who reported falling asleep or not understanding the instructions would be excluded based on notes that predate the journal submission. Excluding participants for these reasons is a standard practice in cognitive neuroscience research to ensure the quality and validity of the data. The fact that the notes predate the journal submission further supports the idea that these exclusions were made during the data collection and processing phase, not as a response to reviewers' comments or to manipulate results.\n\nGiven the context, the probability that two participants who reported falling asleep or not understanding the instructions would be excluded based on notes that predate the journal submission, if Lena did not commit academic misconduct, is around 90%.\n\n90"
+  },
+  {
+    "role": "user",
+    "content": "If Lena did commit academic misconduct, how likely is it that two participants who reported falling asleep or not understanding the instructions would be excluded based on notes that predate the journal submission?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did commit academic misconduct, it is less likely that two participants who reported falling asleep or not understanding the instructions would be excluded based on notes that predate the journal submission. While it is possible to fabricate such notes, doing so would be more difficult and riskier, especially given that these notes predate the journal submission and could be cross-verified with other documentation or data.\n\nHowever, it is not impossible. A researcher engaging in misconduct might still take steps to make their actions appear legitimate by creating predated notes. The presence of such notes could be an attempt to cover up misconduct, but it would also require a level of foresight and planning that is less common in cases of academic misconduct.\n\nGiven the context, the probability that two participants who reported falling asleep or not understanding the instructions would be excluded based on notes that predate the journal submission, if Lena did commit academic misconduct, is around 30%.\n\n30"
+  },
+  {
+    "role": "user",
+    "content": "The final dataset shows an unusually high concentration of p-values just below .05 (e.g., .047, .049, .041) for several exploratory analyses, with almost no p-values just above .05.\n\nIf Lena did not commit academic misconduct, how likely is it that the final dataset would show an unusually high concentration of p-values just below .05 and very few just above .05?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did not commit academic misconduct, it is relatively unlikely that the final dataset would show an unusually high concentration of p-values just below .05 and very few just above .05. This pattern is often referred to as \"p-hacking\" or \"data dredging,\" where researchers manipulate data or analysis methods to achieve statistically significant results. While it can sometimes occur by chance, it is a red flag for potential misconduct.\n\nHowever, it is not impossible for such a pattern to occur naturally due to various factors, such as the specific nature of the data, the research design, or the statistical methods used. For example, if the effect being studied is genuinely strong and the sample size is large enough, it could lead to a higher number of significant results. Additionally, some statistical methods can naturally produce more significant results.\n\nGiven the context, the probability that the final dataset would show an unusually high concentration of p-values just below .05 and very few just above .05, if Lena did not commit academic misconduct, is around 20%.\n\n20"
+  },
+  {
+    "role": "user",
+    "content": "If Lena did commit academic misconduct, how likely is it that the final dataset would show an unusually high concentration of p-values just below .05 and very few just above .05?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did commit academic misconduct, it is relatively likely that the final dataset would show an unusually high concentration of p-values just below .05 and very few just above .05. This pattern is a common indicator of p-hacking or other forms of data manipulation, where researchers adjust their data or analysis methods to achieve statistically significant results. Fabricating or selectively reporting results to meet the conventional threshold for significance (p < .05) is a known tactic in academic misconduct.\n\nGiven the context, the probability that the final dataset would show an unusually high concentration of p-values just below .05 and very few just above .05, if Lena did commit academic misconduct, is around 75%.\n\n75"
+  },
+  {
+    "role": "user",
+    "content": "File timestamps indicate that the preregistration document was modified after the data had already been collected, changing some of the planned exclusion criteria and primary outcomes.\n\nIf Lena did not commit academic misconduct, how likely is it that the preregistration document would be modified after data collection to change some exclusion criteria and primary outcomes?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did not commit academic misconduct, it is relatively unlikely that the preregistration document would be modified after data collection to change some exclusion criteria and primary outcomes. Pre-registration is meant to ensure transparency and integrity in the research process by specifying the study design, hypotheses, and analysis plans before data collection begins. Modifying the preregistration document after data collection, especially to change exclusion criteria and primary outcomes, can raise serious concerns about the integrity of the research.\n\nHowever, there are some plausible, though less common, reasons for such modifications. For example, unforeseen technical issues, changes in the data collection process, or the discovery of previously unknown problems with the data might necessitate changes. In such cases, it is important that these changes are fully documented and justified.\n\nGiven the context, the probability that the preregistration document would be modified after data collection to change some exclusion criteria and primary outcomes, if Lena did not commit academic misconduct, is around 20%.\n\n20"
+  },
+  {
+    "role": "user",
+    "content": "If Lena did commit academic misconduct, how likely is it that the preregistration document would be modified after data collection to change some exclusion criteria and primary outcomes?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did commit academic misconduct, it is relatively likely that the preregistration document would be modified after data collection to change some exclusion criteria and primary outcomes. Modifying the preregistration document after data collection is a common tactic to align the results with the desired outcomes, especially if the initial analysis did not yield the expected significant results. This can involve changing exclusion criteria to exclude participants that do not support the hypothesis or altering primary outcomes to focus on those with more favorable results.\n\nGiven the context, the probability that the preregistration document would be modified after data collection to change some exclusion criteria and primary outcomes, if Lena did commit academic misconduct, is around 80%.\n\n80"
+  },
+  {
+    "role": "user",
+    "content": "An earlier version of the analysis script, recovered from an automated backup, includes additional participants who were later excluded from the final dataset. \n\nIf Lena did not commit academic misconduct, how likely is it that an earlier analysis script including more participants had certain participants excluded in the final dataset?\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did not commit academic misconduct, it is relatively likely that an earlier analysis script including more participants would have certain participants excluded in the final dataset. Excluding participants after initial analysis is a common practice in research for various legitimate reasons, such as data quality issues, participants not meeting inclusion criteria, or technical problems during the experiment. These exclusions are often made to ensure the integrity and validity of the results.\n\nGiven the context, the probability that an earlier analysis script including more participants would have certain participants excluded in the final dataset, if Lena did not commit academic misconduct, is around 70%.\n\n70"
+  },
+  {
+    "role": "user",
+    "content": "If Lena did commit academic misconduct, how likely is it that an earlier analysis script including more participants had certain participants excluded in the final dataset?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did commit academic misconduct, it is relatively likely that an earlier analysis script including more participants would have certain participants excluded in the final dataset. Excluding participants after the initial analysis can be a tactic to manipulate the data to achieve desired results, such as increasing the statistical significance of the findings. This might involve excluding participants who do not support the hypothesis or who introduce variability that weakens the results.\n\nGiven the context, the probability that an earlier analysis script including more participants would have certain participants excluded in the final dataset, if Lena did commit academic misconduct, is around 85%.\n\n85"
+  },
+  {
+    "role": "user",
+    "content": "In emails to a friend, Lena wrote that her supervisor was “counting on this study to save the grant” and that “a null result would basically kill my chances at a postdoc,” and added, “I need this one to work.”\nIf Lena did not commit academic misconduct, how likely is it that she would write emails saying that her supervisor was counting on this study, that a null result would hurt her postdoc chances, and that she “needs this one to work”?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did not commit academic misconduct, it is still quite likely that she would write emails expressing that her supervisor was counting on this study, that a null result would hurt her postdoc chances, and that she \"needs this one to work.\" These sentiments reflect the high-pressure environment in academia, where the success of a study can have significant impacts on both a researcher's career and the lab's funding. Many researchers, even those who maintain the highest ethical standards, may feel intense pressure to produce positive results.\n\nGiven the context, the probability that Lena would write such emails, if she did not commit academic misconduct, is around 75%.\n\n75"
+  },
+  {
+    "role": "user",
+    "content": "If Lena did commit academic misconduct, how likely is it that she would write emails saying that her supervisor was counting on this study, that a null result would hurt her postdoc chances, and that she “needs this one to work”?\n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "If Lena did commit academic misconduct, it is very likely that she would write emails expressing that her supervisor was counting on this study, that a null result would hurt her postdoc chances, and that she \"needs this one to work.\" The high pressure and stakes involved in the study could provide a strong motivation for misconduct. Researchers who engage in misconduct often feel significant pressure to produce positive results, and these emails would reflect the personal and professional stakes that could drive such behavior.\n\nGiven the context, the probability that Lena would write such emails, if she did commit academic misconduct, is around 90%.\n\n90"
+  },
+  {
+    "role": "user",
+    "content": "Based on the given evidence, what do you think is the probability that Lena committed academic misconduct? \n\n**AT THE END OF YOUR RESPONSE**, please output a probability judgment which is an integer between 0 and 100, where 100 denotes certainty. This **MUST** appear at the end of your response!!"
+  },
+  {
+    "role": "assistant",
+    "content": "Based on the given evidence, the probability that Lena committed academic misconduct can be assessed by weighing the various pieces of information:\n\n1. **Unusually high concentration of p-values just below .05**: This is a strong red flag for potential misconduct. (75% if misconduct)\n2. **Modification of the preregistration document after data collection**: Another significant red flag. (80% if misconduct)\n3. **Exclusion of participants in the final dataset that were present in earlier scripts**: This can be a tactic to manipulate results. (85% if misconduct)\n4. **Emails expressing high pressure and stakes**: While not direct evidence of misconduct, they provide a strong motive. (90% if misconduct)\n5. **Previous record of well-documented and reproducible research**: This suggests a history of good practice. (40% if misconduct)\n6. **Lab’s data management logs showing multiple analysis scripts**: This is a common practice and not necessarily indicative of misconduct. (40% if misconduct)\n7. **Lab software switch and hard drive failure**: These events can naturally occur and are not strong evidence of misconduct. (30% if misconduct)\n\nCombining these probabilities and considering the context, the overall likelihood that Lena committed academic misconduct is moderately high, but not certain. The presence of strong motives and multiple red flags, balanced against her previous good record and plausible explanations for some irregularities, leads to a calculated probability.\n\nGiven the context, the probability that Lena committed academic misconduct is around 60%.\n\n60"
+  },
+  {
+    "role": "user",
+    "content": "Please state whether you think Lena committed academic misconduct (Yes / No)?"
+  },
+  {
+    "role": "assistant",
+    "content": "Based on the evidence and the calculated probability, I think Lena did commit academic misconduct.\n\nYes"
+  }
+]

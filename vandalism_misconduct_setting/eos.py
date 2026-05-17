@@ -119,12 +119,9 @@ def ask_model_judgments(args, client):
             prosecutor_evidence = file.read()
         prosecution_evidence.append(prosecutor_evidence+'\n')    
     
-
+    
     random.shuffle(defendant_evidence)
     random.shuffle(prosecution_evidence)
-
-
-
 
     prosecution_evidence = list(prosecution_evidence)
     prosecution_questions = list(prosecution_questions)
