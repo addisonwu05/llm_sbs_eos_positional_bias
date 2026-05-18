@@ -25,7 +25,8 @@ def is_integer(text):
 
 
 def extract_trailing_int(text):
-    """Return the last integer string in text, ignoring surrounding punctuation."""
+    if not text:
+        return None
     m = re.search(r'(\d+)\D*$', text)
     return m.group(1) if m else None
 
