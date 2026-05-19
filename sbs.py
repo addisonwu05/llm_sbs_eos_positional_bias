@@ -28,10 +28,20 @@ def ask_model_judgments(args, client):
     vq1, vq2 = case["verdict_questions"]
 
     step = 0
+    block_idx = 0
+    block_starts = []
     for blocks in (first_blocks, second_blocks):
         for block in blocks:
             evidence = block["evidence"]
             q1, q2 = block["sbs_questions"]
+
+            if getattr(args, "compress", False) and not args.interleave_verdict and block_idx >= 2:
+                start = block_starts[block_idx - 2]
+                for msg in message_log[start:start + 4]:
+                    if msg["role"] == "assistant":
+                        msg["content"] = extract_trailing_int(msg["content"])
+
+            block_starts.append(len(message_log))
 
             if args.interleave_verdict:
                 # Present evidence + ask verdict in one turn
@@ -70,6 +80,7 @@ def ask_model_judgments(args, client):
                 num = extract_trailing_int(response)
             model_judgments.append(num)
             message_log.append({"role": "assistant", "content": response})
+            block_idx += 1
 
     message_log.append({"role": "user", "content": vq1 + "\n" + elicit})
     response = chat_completion(args, client, message_log)
@@ -91,5 +102,7 @@ def ask_model_judgments(args, client):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     add_common_args(parser)
+    parser.add_argument("--compress", action="store_true")
     args = parser.parse_args()
-    run_experiment(args, ask_model_judgments, "outputs")
+    base_dir = "outputs_compress" if args.compress else "outputs"
+    run_experiment(args, ask_model_judgments, base_dir)

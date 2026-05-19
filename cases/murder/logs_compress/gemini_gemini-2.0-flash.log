@@ -1,0 +1,32 @@
+======================================
+Running SbS (compress) for gemini-2.0-flash
+======================================
+➡️ Found 30 completed runs for gemini-2.0-flash (DP)
+⏭️  Skipping gemini-2.0-flash (DP) — already has 30 runs.
+➡️ Found 0 completed runs for gemini-2.0-flash (PD)
+▶️  Resuming from run 1 (30 remaining)
+Running gemini-2.0-flash — PD (run 1)
+Traceback (most recent call last):
+  File "/Users/addisonwu/Desktop/llm_sbs_eos_positional_bias/sbs.py", line 108, in <module>
+    run_experiment(args, ask_model_judgments, base_dir)
+  File "/Users/addisonwu/Desktop/llm_sbs_eos_positional_bias/utils.py", line 121, in run_experiment
+    message_log, model_judgments, verdict_trail = ask_fn(args, client)
+                                                  ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/addisonwu/Desktop/llm_sbs_eos_positional_bias/sbs.py", line 67, in ask_model_judgments
+    response = chat_completion(args, client, message_log)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/addisonwu/Desktop/llm_sbs_eos_positional_bias/utils.py", line 63, in chat_completion
+    return client.chat.completions.create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/addisonwu/anaconda3/lib/python3.11/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/addisonwu/anaconda3/lib/python3.11/site-packages/openai/resources/chat/completions/completions.py", line 1215, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/Users/addisonwu/anaconda3/lib/python3.11/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/addisonwu/anaconda3/lib/python3.11/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - [{'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}]
