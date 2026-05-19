@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 # =========================================================
 
 ROOT_FOLDERS = [
-    "/Users/jasincekinmez/llm_sbs_eos_positional_bias-1/cases/murder/outputs_interleaved"
+    "/Users/jasincekinmez/llm_sbs_eos_positional_bias-1/cases/murder/outputs_interleaved",
+    "/Users/jasincekinmez/llm_sbs_eos_positional_bias-1/cases/murder/outputs_eos_interleaved"
 ]
 
 CONDITIONS = ["dp", "pd"]
