@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "42",
+      "verdict": "Not guilty\n\n42",
+      "guilty": false
+    },
+    {
+      "step": 1,
+      "prob": "84",
+      "verdict": "Guilty\n\n84",
+      "guilty": true
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "68",
+      "guilty_likelihood": "57"
+    },
+    {
+      "not_guilty_likelihood": "24",
+      "guilty_likelihood": "78"
+    }
+  ],
+  "final": {
+    "prob": "81",
+    "verdict": "Guilty\n\n81",
+    "guilty": true
+  }
+}

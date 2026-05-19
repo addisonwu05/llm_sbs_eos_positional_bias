@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "20",
+      "verdict": "Based on the evidence and analysis provided, the verdict for the defendant, Jane, is **Not Guilty**.\n\nThe prosecution's case has significant doubts and alternative explanations that raise reasonable uncertainty about Jane's guilt. The evidence presented does not conclusively prove beyond a reasonable doubt that Jane smothered her children.\n\n**20**",
+      "guilty": false
+    },
+    {
+      "step": 1,
+      "prob": "85",
+      "verdict": "Based on the new evidence and analysis provided, the verdict for the defendant, Jane, is **Guilty**.\n\nThe new evidence significantly strengthens the prosecution's case, showing a pattern of behavior and injuries consistent with smothering in both children. The similarities between the deaths, the re-examination findings indicating abuse, and the consistency of the injuries with smothering all support the conclusion that Jane is guilty beyond a reasonable doubt.\n\n**85**",
+      "guilty": true
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "85",
+      "guilty_likelihood": "40"
+    },
+    {
+      "not_guilty_likelihood": "5",
+      "guilty_likelihood": "95"
+    }
+  ],
+  "final": {
+    "prob": "95",
+    "verdict": "Based on the evidence and analysis provided, the verdict for the defendant, Jane, is **Guilty**.\n\nThe cumulative effect of the evidence, including the similarities between the two deaths, the evidence of abuse and smothering, and the pattern of behavior implicating Jane, demonstrates beyond a reasonable doubt that she is responsible for the deaths of her two children.\n\n**95**",
+    "guilty": true
+  }
+}

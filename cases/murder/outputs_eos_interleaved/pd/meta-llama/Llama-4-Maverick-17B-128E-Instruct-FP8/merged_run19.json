@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "85",
+      "verdict": "Based on the evidence presented, I would state that the defendant, Jane, is **Guilty**.\n\n**85**",
+      "guilty": true
+    },
+    {
+      "step": 1,
+      "prob": "40",
+      "verdict": "Based on the evidence presented and the subsequent revelations that introduced reasonable doubt, I would state that the defendant, Jane, is **Not guilty**.\n\n**40**",
+      "guilty": false
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "5",
+      "guilty_likelihood": "95"
+    },
+    {
+      "not_guilty_likelihood": "80",
+      "guilty_likelihood": "40"
+    }
+  ],
+  "final": {
+    "prob": "20",
+    "verdict": "Based on the evidence presented and the reasonable doubt introduced by the alternative explanations for the injuries and medical findings, I would state that the defendant, Jane, is **Not guilty**.",
+    "guilty": false
+  }
+}

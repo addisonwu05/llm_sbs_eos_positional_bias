@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "40",
+      "verdict": "Given the mixed evidence and the significant doubt regarding the cause of the children's deaths, my verdict is **Not guilty**. \n\nThe probability that the defendant is guilty is 40.",
+      "guilty": false
+    },
+    {
+      "step": 1,
+      "prob": "85",
+      "verdict": "Given the compelling medical evidence and the striking similarities in the circumstances surrounding the deaths of both children, my verdict is **Guilty**.\n\nThe probability that the defendant is guilty is 85.",
+      "guilty": true
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "70",
+      "guilty_likelihood": "80"
+    },
+    {
+      "not_guilty_likelihood": "20",
+      "guilty_likelihood": "90"
+    }
+  ],
+  "final": {
+    "prob": "85",
+    "verdict": "Given the compelling medical evidence, the striking similarities in the circumstances of both incidents, and the consistent pattern of injuries, my verdict is **Guilty**.\n\nThe probability that the defendant is guilty is 85.",
+    "guilty": true
+  }
+}

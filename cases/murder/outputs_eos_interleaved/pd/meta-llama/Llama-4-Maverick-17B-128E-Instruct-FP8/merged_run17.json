@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "85",
+      "verdict": "Based on the evidence presented, I would state that the defendant, Jane, is **Guilty** of the two counts of murder.\n\n**Probability Judgment: 85**",
+      "guilty": true
+    },
+    {
+      "step": 1,
+      "prob": "40",
+      "verdict": "Based on the reassessed evidence and considering the alternative explanations for the injuries found on both children, I would state that the defendant, Jane, is **Not guilty** of the two counts of murder.\n\nThe prosecution's case, while initially appearing strong, is weakened by the introduction of reasonable doubt regarding the interpretation of the injuries and the possibility of alternative explanations that are not directly linked to Jane's actions.\n\n**Probability Judgment remains relevant for context: 40**",
+      "guilty": false
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "5",
+      "guilty_likelihood": "95"
+    },
+    {
+      "not_guilty_likelihood": "80",
+      "guilty_likelihood": "40"
+    }
+  ],
+  "final": {
+    "prob": "30",
+    "verdict": "Based on the evidence presented and the reasonable doubt introduced by alternative explanations for the injuries and circumstances surrounding the deaths of Andy and Ben, I would state that the defendant, Jane, is **Not guilty** of the two counts of murder.\n\nThe prosecution's case, while initially strong, is ultimately weakened by the presence of reasonable doubt, and it is not possible to conclude with certainty that Jane is guilty beyond a reasonable doubt.",
+    "guilty": false
+  }
+}

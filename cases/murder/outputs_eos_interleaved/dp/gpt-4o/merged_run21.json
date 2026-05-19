@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "45",
+      "verdict": "Based on the information provided and the principle of reasonable doubt inherent in criminal cases, the verdict for the defendant should be: **Not guilty**.",
+      "guilty": false
+    },
+    {
+      "step": 1,
+      "prob": "85",
+      "verdict": "Based on the additional evidence and the patterns observed in the case, the verdict for the defendant should be: **Guilty**.",
+      "guilty": true
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "75",
+      "guilty_likelihood": "60"
+    },
+    {
+      "not_guilty_likelihood": "25",
+      "guilty_likelihood": "95"
+    }
+  ],
+  "final": {
+    "prob": "90",
+    "verdict": "Based on the evidence and analysis provided, the verdict for the defendant should be: **Guilty**.",
+    "guilty": true
+  }
+}

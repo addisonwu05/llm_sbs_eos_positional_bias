@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "30",
+      "verdict": "Not guilty.\n\n**Probability Judgment: 30**",
+      "guilty": false
+    },
+    {
+      "step": 1,
+      "prob": "85",
+      "verdict": "Guilty.\n\n**Probability Judgment: 85**",
+      "guilty": true
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "80",
+      "guilty_likelihood": "20"
+    },
+    {
+      "not_guilty_likelihood": "5",
+      "guilty_likelihood": "95"
+    }
+  ],
+  "final": {
+    "prob": "95",
+    "verdict": "Guilty.\n\n**This verdict is based on the presented evidence and the high probability of Jane's guilt.**",
+    "guilty": true
+  }
+}

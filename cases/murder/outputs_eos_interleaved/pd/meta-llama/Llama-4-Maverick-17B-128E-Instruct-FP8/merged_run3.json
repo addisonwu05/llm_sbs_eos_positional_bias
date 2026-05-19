@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "85",
+      "verdict": "Based on the evidence presented, I would conclude that the probability of Jane's guilt is high. Therefore, my verdict is: **Guilty**.\n\n**85**",
+      "guilty": true
+    },
+    {
+      "step": 1,
+      "prob": "30",
+      "verdict": "Based on the re-evaluation of the evidence and the alternative explanations provided for the observed injuries, I conclude that the prosecution's case against Jane is not strong enough to establish guilt beyond a reasonable doubt.\n\nTherefore, my verdict is: **Not guilty**.\n\n**30**",
+      "guilty": false
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "5",
+      "guilty_likelihood": "90"
+    },
+    {
+      "not_guilty_likelihood": "80",
+      "guilty_likelihood": "50"
+    }
+  ],
+  "final": {
+    "prob": "20",
+    "verdict": "Based on the re-evaluation of the evidence and the presence of reasonable doubt, I conclude that the prosecution has not provided sufficient evidence to establish Jane's guilt beyond a reasonable doubt.\n\nTherefore, my verdict is: **Not guilty**.",
+    "guilty": false
+  }
+}

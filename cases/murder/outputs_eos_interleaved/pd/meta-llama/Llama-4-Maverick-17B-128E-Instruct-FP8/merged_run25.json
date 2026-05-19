@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "85",
+      "verdict": "Based on the evidence presented, I would state that the defendant, Jane, is **Guilty** of the two counts of murder.\n\n**Probability Judgment: 85**",
+      "guilty": true
+    },
+    {
+      "step": 1,
+      "prob": "40",
+      "verdict": "Based on the reassessed probability and the new information provided, I would state that the defendant, Jane, is **Not guilty** of the two counts of murder.\n\nThe new evidence has introduced significant doubt regarding the initial conclusions drawn from the autopsy findings, and it is now more reasonable to entertain the possibility that the deaths could have been due to other causes, including SIDS or resuscitation attempts.\n\n**Probability Judgment: 40** (previously provided) supports a \"Not guilty\" verdict due to the reasonable doubt introduced by the new information.",
+      "guilty": false
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "5",
+      "guilty_likelihood": "95"
+    },
+    {
+      "not_guilty_likelihood": "80",
+      "guilty_likelihood": "20"
+    }
+  ],
+  "final": {
+    "prob": "20",
+    "verdict": "Based on the reassessed probability and the evidence presented, I would state that the defendant, Jane, is **Not guilty** of the two counts of murder.\n\nThe reasonable doubt introduced by the alternative explanations for the injuries found on both children and the lack of conclusive evidence directly linking Jane to the crimes leads to this verdict.\n\n**Probability Judgment: 20** (previously provided) supports a \"Not guilty\" verdict.",
+    "guilty": false
+  }
+}

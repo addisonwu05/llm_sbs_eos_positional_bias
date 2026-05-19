@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "85",
+      "verdict": "Given the compelling medical evidence of abuse and the consistent pattern of incidents, the probability of the defendant's guilt is high. Therefore, based on the evidence provided:\n\n**Verdict: Guilty**\n\n**Probability Judgment: 85%**",
+      "guilty": true
+    },
+    {
+      "step": 1,
+      "prob": "70",
+      "verdict": "Given the reevaluation of the evidence, including the possibility that some injuries could be attributed to resuscitation attempts and the absence of typical smothering injuries in Ben, there is a significant level of uncertainty that introduces reasonable doubt.\n\n**Verdict: Not guilty**\n\n**Probability Judgment: 70%** \n\nThis probability reflects the strong pattern of incidents and some medical evidence that still suggests a high likelihood of guilt, but the additional information introduces enough doubt to meet the legal standard of \"beyond a reasonable doubt.\"",
+      "guilty": false
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "5",
+      "guilty_likelihood": "95"
+    },
+    {
+      "not_guilty_likelihood": "40",
+      "guilty_likelihood": "85"
+    }
+  ],
+  "final": {
+    "prob": "75",
+    "verdict": "Given the detailed analysis of the evidence, the consistent pattern of incidents, and the medical findings, while there is some uncertainty introduced by the absence of petechiae and the possibility of some injuries being attributed to resuscitation or post-mortem changes, the overall weight of the evidence still leans heavily towards guilt.\n\n**Verdict: Guilty**\n\n**Probability Judgment: 75%**",
+    "guilty": true
+  }
+}

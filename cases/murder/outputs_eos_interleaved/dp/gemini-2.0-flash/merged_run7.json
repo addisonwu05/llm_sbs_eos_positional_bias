@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "40",
+      "verdict": "Based on the information provided, my verdict for the defendant is: **Not guilty**.\n\nProbability: 40\n",
+      "guilty": false
+    },
+    {
+      "step": 1,
+      "prob": "85",
+      "verdict": "Based on the updated information, my verdict for the defendant is: **Guilty**.\n\nProbability: 85\n",
+      "guilty": true
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "70",
+      "guilty_likelihood": "30"
+    },
+    {
+      "not_guilty_likelihood": "5",
+      "guilty_likelihood": "95"
+    }
+  ],
+  "final": {
+    "prob": "90",
+    "verdict": "Based on the given evidence and the high probability assessment, my verdict for the defendant is: **Guilty**.\n\nProbability: 90\n",
+    "guilty": true
+  }
+}

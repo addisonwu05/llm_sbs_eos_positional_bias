@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "85",
+      "verdict": "Based on the evidence presented, I would state that the defendant, Jane, is **Guilty**.\n\n**85**",
+      "guilty": true
+    },
+    {
+      "step": 1,
+      "prob": "40",
+      "verdict": "Based on the updated evidence and analysis, I would state that the defendant, Jane, is **Not guilty**.\n\nThe reasonable doubts introduced by the new information, such as alternative explanations for the injuries found in both children and the lack of typical signs of smothering, make it less likely that Jane is guilty beyond a reasonable doubt.\n\n**40**",
+      "guilty": false
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "5",
+      "guilty_likelihood": "90"
+    },
+    {
+      "not_guilty_likelihood": "80",
+      "guilty_likelihood": "20"
+    }
+  ],
+  "final": {
+    "prob": "30",
+    "verdict": "Based on the evidence presented and the reasonable doubts that have been introduced, I would state that the defendant, Jane, is **Not guilty**.\n\nThe presence of alternative explanations for the injuries, the absence of typical signs of smothering, and other factors have raised sufficient doubt to conclude that Jane is not guilty beyond a reasonable doubt.\n\n**30**",
+    "guilty": false
+  }
+}

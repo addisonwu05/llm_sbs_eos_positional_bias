@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "30",
+      "verdict": "Based on the evidence presented and the analysis provided, I would conclude that the prosecution has not presented conclusive evidence to prove beyond a reasonable doubt that Jane is guilty of murdering her two sons.\n\n**Verdict: Not guilty**\n\n**Probability Judgment: 30**",
+      "guilty": false
+    },
+    {
+      "step": 1,
+      "prob": "80",
+      "verdict": "Based on the evidence presented, particularly the striking similarities between the two incidents, the medical evidence suggesting smothering or abuse, and the re-examination findings indicating non-accidental injury, I conclude that the prosecution has presented a strong case against Jane.\n\n**Verdict: Guilty**\n\n**Probability Judgment: 80**",
+      "guilty": true
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "80",
+      "guilty_likelihood": "20"
+    },
+    {
+      "not_guilty_likelihood": "5",
+      "guilty_likelihood": "95"
+    }
+  ],
+  "final": {
+    "prob": "95",
+    "verdict": "Based on the evidence presented, I conclude that the prosecution has presented a very strong case against Jane, with compelling medical evidence and suspicious circumstances surrounding the deaths of both children.\n\n**Verdict: Guilty**",
+    "guilty": true
+  }
+}

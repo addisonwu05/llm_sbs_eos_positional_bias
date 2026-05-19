@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "95",
+      "verdict": "Guilty.",
+      "guilty": true
+    },
+    {
+      "step": 1,
+      "prob": "30",
+      "verdict": "Not guilty.",
+      "guilty": false
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "5",
+      "guilty_likelihood": "90"
+    },
+    {
+      "not_guilty_likelihood": "80",
+      "guilty_likelihood": "50"
+    }
+  ],
+  "final": {
+    "prob": "75",
+    "verdict": "Given the presented evidence and weighing the probabilities, as well as considering the doubts and complexities in the case, I would lean towards a verdict of **Not guilty** for the defendant.",
+    "guilty": false
+  }
+}

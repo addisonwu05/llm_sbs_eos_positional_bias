@@ -1,0 +1,32 @@
+{
+  "type": "merged_interleaved",
+  "intermediate_verdicts": [
+    {
+      "step": 0,
+      "prob": "30",
+      "verdict": "Given the evidence and the analysis provided, the probability of Jane's guilt is relatively low. The injuries found on both children can be explained by natural causes or resuscitation efforts, and the absence of definitive signs of smothering, such as petechiae, further weakens the case for guilt. Considering the possibility of Sudden Infant Death Syndrome (SIDS) and the lack of strong evidence to the contrary, the verdict would be:\n\n**Not guilty.**\n\n**Probability Judgment: 30**",
+      "guilty": false
+    },
+    {
+      "step": 1,
+      "prob": "70",
+      "verdict": "Based on the detailed evidence and the analysis of the circumstances surrounding the deaths of both Andy and Ben, the similarities in the incidents, and the nature of the injuries found, the probability that Jane is guilty is relatively high. The hypoxic damage, the injuries indicative of smothering, and the consistent pattern of events all point towards a deliberate act.\n\n**Verdict: Guilty**\n\n**Probability Judgment: 70**",
+      "guilty": true
+    }
+  ],
+  "diagnostics": [
+    {
+      "not_guilty_likelihood": "70",
+      "guilty_likelihood": "40"
+    },
+    {
+      "not_guilty_likelihood": "20",
+      "guilty_likelihood": "80"
+    }
+  ],
+  "final": {
+    "prob": "80",
+    "verdict": "Based on the detailed evidence and the analysis of the circumstances surrounding the deaths of both Andy and Ben, the consistent pattern of events, and the nature of the injuries found, the probability that Jane is guilty is high.\n\n**Verdict: Guilty**\n\n**Probability Judgment: 80**",
+    "guilty": true
+  }
+}
