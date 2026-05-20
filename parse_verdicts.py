@@ -1,6 +1,7 @@
 import json
 import os
 import glob
+import re
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from openai import OpenAI
@@ -32,8 +33,15 @@ def get_client():
         return client
 
 
-SYSTEM_PROMPT = "You are a verdict classifier. Given a legal verdict text, respond with exactly one word: 'guilty' or 'not_guilty'."
-USER_PROMPT = "What is the verdict in the following text? Reply with only 'guilty' or 'not_guilty'.\n\n{text}"
+SYSTEM_PROMPT = (
+    "You are a verdict classifier. Given a legal verdict text, first briefly reason about "
+    "what verdict is expressed, then on the final line respond with exactly one word: "
+    "'guilty' or 'not_guilty'."
+)
+USER_PROMPT = (
+    "What is the verdict in the following text? Reason briefly, then end with exactly "
+    "one word on its own line: 'guilty' or 'not_guilty'.\n\n{text}"
+)
 
 
 def classify_verdict(text):
@@ -47,13 +55,16 @@ def classify_verdict(text):
         temperature=0,
     )
     raw = response.choices[0].message.content.strip().lower()
-    if "not_guilty" in raw or "not guilty" in raw:
-        return False
-    elif "guilty" in raw:
-        return True
-    else:
-        print(f"  WARNING: unexpected response: {repr(raw)}")
-        return None
+    words = re.findall(r"[a-z_]+", raw)
+    if words:
+        last = words[-1]
+        second_last = words[-2] if len(words) >= 2 else ""
+        if last == "not_guilty" or (second_last == "not" and last == "guilty"):
+            return False
+        if last == "guilty":
+            return True
+    print(f"  WARNING: unexpected response: {repr(raw)}")
+    return None
 
 
 _file_lock = threading.Lock()
@@ -66,6 +77,8 @@ def process_judgments(path):
         if isinstance(data[-1], bool):
             return f"SKIP {path}"
 
+    if not data:
+        return f"SKIP (empty) {path}"
     verdict_text = data[-1]
     if not isinstance(verdict_text, str):
         return f"SKIP (unexpected type) {path}"
@@ -112,8 +125,20 @@ def collect_files(case_dir, interleaved_dirs):
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--no-interleaved", action="store_true", help="Skip interleaved output dirs")
+    args = parser.parse_args()
+
     case_dir = "cases/murder"
-    interleaved_dirs = ["outputs_interleaved", "outputs_eos_interleaved"]
+    all_dirs = [
+        "outputs",
+        "outputs_compress",
+        "outputs_eos",
+        "outputs_interleaved",
+        "outputs_eos_interleaved",
+    ]
+    interleaved_dirs = [d for d in all_dirs if not args.no_interleaved or "interleaved" not in d]
 
     tasks = collect_files(case_dir, interleaved_dirs)
     print(f"Found {len(tasks)} files to process ({len(CLIENTS)} API keys)")
