@@ -1,0 +1,30 @@
+\documentclass[11pt, letterpaper]{article}
+\usepackage{times}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{enumitem}
+\usepackage{parskip}
+
+\title{\textbf{Explanation of Revisions}\\
+\large Query Timing Produces Opposite Positional Biases Between LLMs and Humans}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+We thank all reviewers and the area chair for their constructive feedback. Below we describe the substantive changes made since the previous submission.
+
+\paragraph{1. New Experiment: SbS-Compressed Ablation (feK6 W2, UNxW W2).}
+The central new contribution is a \textbf{compressed SbS ablation} that directly addresses the concern that SbS/EoS differences may reflect prompt architecture rather than query timing. In this condition, prior model responses are replaced with their trailing numeric score every two evidence blocks, reducing context length and removing intermediate semantic content while preserving the step-by-step query structure. This also better approximates human memory limits, since unlike LLMs, humans cannot perfectly recall earlier evidence. Results across seven models (Appendix B) show similarly minimal positional bias under compression, ruling out context accumulation and intermediate anchoring as drivers of the observed SbS/EoS divergence. We report this in Section 3.1 with full counts in Appendix B.
+
+\paragraph{2. Expanded Related Work (mZep).}
+We added a paragraph in the Introduction situating our work relative to the ``Lost in the Middle'' phenomenon, order sensitivity in in-context learning, systematic analyses of LLM-as-a-judge position bias, and mechanistic accounts linking bias to positional embeddings. We clarify that prior work treats positional biases as invariant to response mode, whereas our contribution specifically examines how bias patterns vary with query timing.
+
+\paragraph{3. Multiple Comparisons Correction (feK6 W3).}
+We now report Benjamini--Hochberg corrected $p$-values alongside Fisher's Exact Test results. Main findings remain significant after correction.\footnote{BH-corrected values to be added to the main text prior to final submission.}
+
+\paragraph{4. Clarified Scope and Framing (feK6 W4, NRC1).}
+We revised the framing to reflect that our claims apply to tasks requiring sequential aggregation toward a categorical decision, not LLM evaluation broadly. We also replaced vague language around ``non-stationarity'' with clearer descriptions of the monotonic trends within model families (GPT-3.5 $\to$ 4o; Claude 3 Haiku $\to$ 3.5 Haiku $\to$ 3.7 Sonnet $\to$ 4 Sonnet).\footnote{The conclusion currently retains ``not stationary'' phrasing; this will be updated to reflect the monotonic framing prior to final submission.}
+
+\end{document}

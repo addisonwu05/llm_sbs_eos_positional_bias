@@ -1,0 +1,805 @@
+\documentclass[11pt, letterpaper]{article}
+
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage[review]{acl}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{subcaption}
+\usepackage{placeins}
+\usepackage{times}
+\usepackage{mdframed}
+\usepackage[export]{adjustbox}
+
+\title{Query Timing Produces Opposite Positional Biases\\ Between LLMs and Humans}
+
+\author{}
+
+
+\begin{document}
+
+\maketitle
+
+
+\begin{abstract}
+Positional biases such as recency and primacy effects have been documented in large language models (LLMs), yet the underlying mechanism by which these models make their evaluations remains poorly understood. Both \emph{primacy} and \emph{recency} biases have been observed in human judgments in response to evidence, but recent work suggest that \emph{when} the listener updates their beliefs -- during the presentation of evidence or only at the end -- influences the presence of such effects. We investigate whether a similar phenomenon holds for LLMs, finding divergence from human behavior across many models and these biases are more exacerbated in newer models compared to their predecessors.
+\end{abstract}
+
+
+\section{Introduction}
+
+Large language models are increasingly used not only to generate information, but also to make decisions on our behalf \cite{li2024llms, zheng2023judging}. As LLM-as-a-judge systems are adopted in more domains where judgments carry real consequences \cite{li2024llms}, assessing whether they can serve as fair and reliable evaluators becomes critical. Specifically, a growing body of literature has identified positional biases in LLM evaluations, where the order in which evidence is presented impacts the judgments made by the model \cite{schilcher2025characterizing, sun2025posum, wang2024large}. This literature adds to demonstrations of the brittleness of evaluative workflows assisted by LLMs-as-a-Judge, including stochasticity \cite{lee2025evaluating} and self-preferential bias \cite{panickssery2404llm}, flaws that are not reliably solved with simple interventions like fine-tuning \cite{zhu2023judgelm}. Such sensitivity to evidence order raises concerns about whether LLMs are relying on the substantive content of the evidence or on spurious structural details. While prior work establishes and provides insight into some of these biases, there is limited work fully delineating \emph{when} such specific biases affect LLM judgments. Understanding when these positional biases manifest in LLM judgments is a prerequisite for the responsible scaling of LLM-as-a-judge systems.
+
+For human decision making, positional biases – effects in which the order of evidence is provided impacts judgments – are widely documented \cite{murdock1962serial}. However, previous results offer conflicting findings about what type of positional biases emerge in decision-making. Some results show \emph{primacy effects} in jury decisions \citep{dennis2001primacy, pennington1982witnesses, tetlock1983accountability, wells1985timing} – that is, in some studies, when a defendant presents their case first, they are less likely to be perceived as guilty. However, other studies have found \emph{recency effects} to be the prevailing mode of bias \citep{charman2016evidence, dahl2009investigating, furnham1986robustness, maegherman2022law}.
+
+In an effort to reconcile such diverging conclusions, \citet{qiao2025speak} show that which positional biases manifest in humans is influenced by when people are asked for their momentary belief predictions. Two common response modes are asking for a final judgment at the end, known as End-of-Sequence (EoS) answering, and for intermediate judgments as updated evidence is presented, known as Step-by-Step (SbS) answering \citep{hogarth1992order, kerstholt1998judicial, qiao2025speak}.
+\citet{qiao2025speak} found that people exhibit positional biases -- typically recency biases -- in the SbS response mode, but no overall bias in the EoS response mode. %This finding raises the question of whether we can study similar modal nuances that clarify the existence of order effects and their influences on subsequent judgments made by LLMs.}
+
+Building on this previous work, we examine order effects under both EoS and SbS response modes in LLM evaluation. We build on the paradigm introduced by \citet{qiao2025speak} which studies these effects in humans within a single accusatory setting. We extend this paradigm to three distinct accusatory settings to better understand whether these order effects and response mode effects generalize beyond the original setting. By doing so, we aim to assess whether the order effects observed in human cognition also manifest in LLM judgments across different contexts. Additionally, this design allows us to better understand the evolutionary nature of biases within LLMs, examining whether such biases remain stable or change across different models and successive model iterations.
+
+\section{Methodology}
+
+\subsection{Overview}
+We investigate the impacts of different ways information is inputted to LLMs across multiple accusatory settings, adopting the experimental framework introduced by Qiao and Lagnado. We examine how SbS versus EoS response modes influence the final judgment made by the LLMs, as well as how the ordering of evidence within each response mode affects the final judgment. Our analysis spans both open and closed source models. We intentionally consider three separate accusatory domains to assess whether the trends observed by Qiao and Lagnado generalize to other domains. Additionally, accusatory settings are utilized since conditional probability questions in these domains allow for an implicit causal link to the individual, making this an important domain to analyze how LLMs form their judgments.  
+
+\subsection{Dataset and Prompts}
+We employ three different accusatory settings for our experiments: criminal, academic, and social. The criminal setting involves a homicide and is borrowed from Qiao and Lagnado. The social misconduct setting involves deciding whether an employee caused damage to property, while the academic misconduct setting involves deciding whether a student committed academic dishonesty. The social and academic misconduct settings were designed to mimic the structure of Qiao and Lagnado. For all three settings, we include a neutral case summary which summarizes the situation, four pieces of prosecution evidence, and four pieces of defense evidence.
+
+We evaluate LLM behavior using two types of questions. The first type of question conditions on the individual committing or not committing the action and then asks, based on that assumption, how likely it is that the stated piece(s) of evidence would occur. The first question type comes in sets of two, where the first question conditions on not being guilty and asks how likely that piece of evidence is, and the second question follows the same format but instead conditions on being guilty. The second type of question consists of final verdict questions. The first conditions on all of the evidence and asks how likely it is that the person is guilty, and the final question asks for the verdict for the person (Guilty/Not Guilty) (See Appendix A).
+
+\subsection{Procedure}
+For each LLM and each of the three accusatory settings, we run four experiments: SbS with prosecution evidence then defense evidence (PD), SbS (DP), EoS (PD), and EoS (DP). For each experiment, we perform 30 independent runs to account for variability in LLM judgments, and compute the proportion of guilty verdicts by dividing the number of guilty outcomes by 30.
+
+The key distinction between SbS and EoS lies in how evidence is presented to the model. In the SbS condition, evidence is provided sequentially, the model is first presented with a single piece of evidence, followed by two conditional probability questions, before receiving the next piece of evidence. In contrast, in the EoS condition, all evidence from one side is presented at once, followed by the two questions, before proceeding to the opposing side.
+
+In all experiments, the LLM is given a case summary. For both response modes, the pieces of evidence are randomly permuted within the prosecution and defense sets for each run. Evidence and intermediate questions are then given according to the assigned response mode and evidence order. After all evidence has been presented, the model is asked two final questions. The penultimate question asks how likely it is, given all the evidence, that the individual is guilty, and the final question asks whether the individual is guilty (Guilty/Not Guilty).
+
+We conduct these experiments across both open and closed source LLMs, as well as across older and newer model versions, to examine whether response mode biases differ by model accessibility, release time, or model idiosyncrasies. 
+
+\section{Results}
+
+% \begin{table}[ht!]
+% \centering
+% \caption{Verdict proportions for academic misconduct. \textbf{Bold} = statistically significant difference in proportion of "guilty" verdicts within a prompting method *biases within EoS prompting are more amplified than biases with SbS prompting}
+% \label{tab:academic_verdicts}
+% \resizebox{\linewidth}{!}{%
+% \begin{tabular}{lcccc}
+% \toprule
+%  & \multicolumn{2}{c}{EoS} & \multicolumn{2}{c}{SbS} \\
+% Model & DP & PD & DP & PD \\
+% \midrule
+% GPT 4o * &       \textbf{1.00} & \textbf{0.033} & \textbf{0.30} & \textbf{0.033} \\
+% Claude 3.7 Sonnet *        & \textbf{1.00} & \textbf{0.433} & 0.967 & 0.833 \\
+% Claude 4 Sonnet *        & \textbf{1.00} & \textbf{0.20} & 1.00 & 0.967 \\
+% Gemini 2.5 Flash         & 1.00 & 1.00 & 1.00 & 1.00 \\
+% Llama-4-Maverick         & 1.00 & 0.8 & \textbf{0.6} & \textbf{0.033} \\
+% Qwen2.5-72b-Turbo *              & \textbf{0.567} & \textbf{0.133} & 1.00 & 1.00 \\
+% \bottomrule
+% \end{tabular}}
+% \end{table}
+
+\begin{table}[ht!]
+\centering
+\caption{Verdict proportions for academic misconduct.}
+\label{tab:academic_verdicts}
+
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{EoS} & \multicolumn{2}{c}{SbS} \\
+Model & DP & PD & DP & PD \\
+\midrule
+GPT 4o * & \textbf{1.00} & \textbf{0.033} & \textbf{0.30} & \textbf{0.033} \\
+Claude 3.7 Sonnet * & \textbf{1.00} & \textbf{0.433} & 0.967 & 0.833 \\
+Claude 4 Sonnet * & \textbf{1.00} & \textbf{0.20} & 1.00 & 0.967 \\
+Gemini 2.5 Flash & 1.00 & 1.00 & 1.00 & 1.00 \\
+Llama-4-Maverick & 1.00 & 0.8 & \textbf{0.6} & \textbf{0.033} \\
+Qwen2.5-72b-Turbo * & \textbf{0.567} & \textbf{0.133} & 1.00 & 1.00 \\
+\bottomrule
+\end{tabular}
+}
+
+\caption*{\footnotesize
+\textbf{Note.} \textbf{Bold} entries indicate statistically significant differences in the proportion of ``guilty'' verdicts within a prompting method.
+\emph{Starred} * entries denote cases where EoS prompting results in more amplified biases than with SbS prompting.
+}
+\end{table}
+
+
+\begin{table}[ht!]
+\centering
+\caption{Verdict proportions for social misconduct.}
+\label{tab:academic_verdicts}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{EoS} & \multicolumn{2}{c}{SbS} \\
+Model & DP & PD & DP & PD \\
+\midrule
+GPT 4o * &       \textbf{0.2667} & \textbf{0.00} & 0.00 & 0.00 \\
+Claude 3.7 Sonnet *         & \textbf{0.967} & \textbf{0.00} & 0.1 & 0.00 \\
+Claude 4 Sonnet *        & \textbf{0.967} & \textbf{0.00} & \textbf{0.367} & \textbf{0.067} \\
+Gemini 2.5 Flash         & 0.567 & 0.467 & 0.30 & 0.33 \\
+Llama-4-Maverick *        & \textbf{0.967} & \textbf{0.00} & \textbf{0.167} & \textbf{0.00} \\
+Qwen2.5-72b-Turbo *             & \textbf{0.9} & \textbf{0.033} & 0.367 & 0.167 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[ht!]
+\centering
+\caption{Verdict proportions for criminal misconduct.}
+\label{tab:academic_verdicts}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{EoS} & \multicolumn{2}{c}{SbS} \\
+Model & DP & PD & DP & PD \\
+\midrule
+GPT 4o * &       \textbf{1.00} & \textbf{0.20} & 1.00 & 0.867 \\
+Claude 3.7 Sonnet *       & \textbf{0.967} & \textbf{0.00} & 0.833 & 1.00 \\
+Claude 4 Sonnet *        & \textbf{0.967} & \textbf{0.00} & 0.933 & 0.867 \\
+Gemini 2.5 Flash         & 0.9 & 0.7 & 0.8 & 0.833 \\
+Llama-4-Maverick *        & \textbf{0.867} & \textbf{0.033} & 0.8 & 0.933 \\
+Qwen2.5-72b-Turbo               & 0.833 & 0.7 & 1.00 & 1.00 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+
+\subsection{General Trends}
+We employ a two-stage Fisher’s Exact Test to assess statistical significance at the 0.05 level. First, we test whether the difference in proportions between the orders DP and PD is statistically significant within each response mode. If both order effects are statistically significant, we then test the difference of these differences between EoS and SbS. To account for multiple comparisons across models and settings, we apply a Benjamini--Hochberg correction; main findings remain significant after correction. 
+
+Qiao and Lagnado find that humans exhibit a recency bias under the SbS response mode, but no bias under the EoS response mode. However, we observe a contrasting pattern in LLMs. For most models, the order effect is not statistically significant in the SbS condition, but is statistically significant in the EoS condition, specifically, a recency bias. To rule out context length as a confound — and to better approximate human memory limits, since unlike LLMs humans cannot perfectly recall earlier evidence — we ran a compressed SbS ablation replacing prior responses with their numeric score. Results showed similarly minimal bias, suggesting SbS order effects are not an artifact of prompt length (see Appendix~\ref{sec:compress_appendix}). Additionally, even when both response mode order effects are statistically significant, the EoS order effects are still more statistically significantly pronounced in magnitude compared to the SbS order effects (Tables 1, 2, 3). 
+
+An exception to this trend is Gemini 2.5 Flash, which does not exhibit statistically significant order effects in either response mode. Additionally, order effects and response mode biases are less consistent for open source models than for GPT and Claude. Overall, the EoS recency bias holds robustly for GPT and Claude models across all three settings (Tables 1, 2, 3).
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.8\linewidth]{gpt_overtime.png}
+    \caption{Changes in proportion of "guilty" verdicts across GPT model family for criminal misconduct setting}
+    \label{fig:gpt5_verdict}
+\end{figure}
+
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.8\linewidth]{claude_overtime.png}
+    \caption{Changes in proportion of "guilty" verdicts across Claude model family for criminal misconduct setting}
+    \label{fig:gpt5_verdict}
+\end{figure}
+
+\subsection{Emergence of Biases Within Model Families}
+As done in Section 3.1, we employ the same statistical tests to assess whether differences between order effects are statistically significant. For GPT 3.5 Turbo, we find no statistically significant order effects in either response mode. In contrast, GPT 4o exhibits a statistically significant recency bias in the EoS response mode (Figure 1). A similar progression is observed for Claude models, where Claude 3 Haiku and Claude 3.5 Haiku show no statistically significant order effect in either response mode; however, successive models – Claude 3.7 Sonnet, Claude 4 Sonnet – both exhibit recency bias in the EoS response mode. In sum, these results suggest that order effect biases in LLMs are not static (Figure 2). Instead, LLMs evolve from exhibiting no order effects to showing statistically significant order effects which may manifest in different directions and response modes.  
+
+\subsection{(Mis)-Correspondence with Internal Bayesian Probability Updates}
+
+\begin{figure}[ht!]
+    \centering
+
+    \subfigure[DP direction]{
+        \includegraphics[width=0.67\linewidth]{output_dp.png}
+        \label{fig:gpt_overtime}
+    }
+
+    %\vspace{0.5em} % optional vertical spacing
+
+    \subfigure[PD direction]{
+        \includegraphics[width=0.67\linewidth]{output_pd.png}
+        \label{fig:claude_overtime}
+    }
+
+    \caption{GPT-4o updated probability judgments of guilt for the Murder case in both SBS conditions}
+    \label{fig:model_overtime}
+\end{figure}
+
+\noindent In an attempt to obtain preliminary insights for why LLMs did not demonstrate strong  recency biases in their final verdict judgments in the SBS conditions, contrary to as what was observed with human participants, we analyzed the LLM-outputted probabilities of guilt after each piece of evidence was revealed. 
+
+In both evidence orderings (PD and DP), GPT-4o strongly leaned toward issuing \emph{Not Guilty} final verdicts. However, this apparent stability in the final decision masked substantial intermediate belief updating. Specifically, the model’s reported probability of guilt systematically increased or decreased in response to individual evidence items, exhibiting clear sensitivity to both inculpatory and exculpatory information as it was sequentially presented (Figure 3).
+
+Despite these intermediate belief shifts, changes in the direction or magnitude of the reported guilt probability were not reflected in the ultimate judgment, especially as indicated by the DP direction (Figure 3 a), suggesting a dissociation between belief reporting and decision making under SbS prompting. This stands in contrast to a simple thresholding account, in which the final verdict would be expected to directly reflect the terminal probability estimate.
+
+\section{Conclusion}
+Overall, we find that LLMs exhibit positional biases that differ from those observed in human cognition. While humans tend to display recency effects in the SbS response mode, many LLMs instead exhibit recency biases under the EoS response mode. This pattern is strongest for GPT and Claude models, is less pronounced for open source models, and is absent for Gemini 2.5 Flash. Also, our results reveal a monotonic trend within model families: successive iterations consistently progress from exhibiting no statistically significant order effects to showing pronounced positional biases, as seen in both the GPT (3.5 $\to$ 4o) and Claude (3 Haiku $\to$ 3.5 Haiku $\to$ 3.7 Sonnet $\to$ 4 Sonnet) lineages.
+
+These findings highlight the need for caution when deploying LLMs as evaluators, particularly in high-stakes settings where judgments should be invariant to evidence order or response format. Although longer context evaluations may lead to exhibiting different biases, we do not pursue such scaling here, as the observed biases are already pronounced under the current experimental conditions.
+
+For future directions, it is important is to explore interventions at the level of response mode and evidence ordering that could yield more consistent judgments. Additionally, applying mechanistic interpretability techniques may help uncover the processes that lead to these biases, providing insight into why LLM evaluations diverge from human sequential reasoning in the first place.
+
+\section*{Limitations}
+
+Our study uses controlled accusatory scenarios with a fixed number and structure of evidence items, which allows for clear comparisons across response modes but may limit ecological validity. Real-world evaluative contexts often involve more complex, ambiguous, and interdependent evidence, and positional biases may manifest differently under such conditions. Additionally, while we evaluate multiple open- and closed-source LLM families, our model coverage is not exhaustive, and we do not isolate which aspects of model training or architecture drive the observed differences across model generations.
+
+Moreover, our primary analyses focus on binary verdict outcomes, which compress richer belief states into coarse decisions. Although we examine intermediate probability judgments under Step-by-Step prompting, these self-reported probabilities may not faithfully reflect models’ internal representations or decision criteria. Finally, while our response modes are adapted from human experimental paradigms, they may interact with LLM context processing in ways that lack a direct human analogue, warranting caution when interpreting behavioral divergences between humans and models.
+
+\bibliography{custom}
+
+\newpage
+\onecolumn
+\appendix
+\section{Prompts}
+
+\subsection{Murder Case Setting}
+\subsubsection{Case Summary Prompt}
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+Jane is charged with two counts of murder of both her children, and here is the background of the case:\\
+
+After Jane and Frank had been happily married for 5 years, their first son, Andy, was born.\\
+
+When Andy was 11 weeks old, Jane found the baby had fallen unconscious after being put to bed when she was alone with the baby at home. Jane soon called an ambulance, but Andy was declared dead after being transported to the hospital. A post-mortem was conducted and it suggested natural causes of death.\\
+
+After one year, Jane and Frank’s second son, Ben, was born. When Ben was 8 weeks old,
+Jane discovered that the baby was unwell, and the couple called an ambulance. However, Ben could not be resuscitated either and was pronounced dead. An autopsy was conducted and injuries to the ribs and spinal cord, hypoxic damage (low level of oxygen) to the brain, and haemorrhages to the eyes and eyelids were discovered.\\
+
+As a result of this finding, further tests based on Andy’s (the first son) autopsy photographs were carried out, and found bruises to the arms and legs, a torn frenulum, and blood in the lung. Subsequently, Jane was charged with two counts of murder of both children by smothering them.\\
+
+Another possible explanation for the death of Andy and Ben is sudden infant death syndrome (SIDS), also known as COT or CRIB death. This is a sudden and unexplainable death of infants during their first year of life. There are a number of risk factors that correlate with SIDS, but no clear mechanism or cause has been identified. The frequency of SIDS is 1 in 4,000 in the UK, and it is more common among boys than girls.
+\end{minipage}
+}
+\caption{Initial case summary prompt for criminal murder case.}
+\label{fig:criminal_case_summary}
+\end{figure}
+
+\subsubsection{Defense Evidence}
+
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+
+\textbf{(D1)} The injuries that were found on Ben were not noted by nurses when he was brought to the hospital.
+
+\medskip
+\textbf{(D2)} Despite the injuries found on Ben, no other typical injuries of a death due to smothering were found, such as petechiae (tiny red or purple spots that can appear on the skin).
+
+\medskip
+\textbf{(D3)} The spinal bleeding that was found in Ben is a common finding in natural death, and the dislocated ribs probably occurred post-mortem or due to resuscitation attempts.
+
+\medskip
+\textbf{(D4)} Andy’s injuries had initially been put down as due to the resuscitation attempts, and such injuries are consistent with attempts to revive a person, especially a baby.
+
+\end{minipage}
+}
+\caption{Evidence pieces for the Defense side in the murder case. Each sub-entry corresponds to a distinct evidentiary claim.}
+\label{fig:criminal_defense_evidence}
+\end{figure}
+
+\newpage
+\subsubsection{Defense EOS Questions}
+
+In the EOS setting, both of the questions in Figure \ref{fig:criminal_defense_eos} are prompted to the LLM immediately after all of the defense evidence in Figure \ref{fig:criminal_defense_evidence} is presented.
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+If Jane \textbf{\{is/is NOT\}} GUILTY, how likely is it that the injuries found on Ben were not present when he was brought to the hospital, the absence of injuries such as petechiae in Ben, the spinal bleeding and dislocated ribs found in Ben, and the injuries found in Andy?\end{minipage}
+}
+\caption{End-of-sequence (EOS) defense question, issued after all defense evidence is presented.}
+\label{fig:criminal_defense_eos}
+\end{figure}
+
+\subsubsection{Defense SBS Questions}
+
+In the SBS setting, the model is queried \emph{sequentially}, immediately after each individual piece of defense evidence is presented. Each question conditions only on the evidence observed up to that point, allowing us to isolate how belief updates occur when evidence is evaluated incrementally rather than in aggregate.
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+
+\textbf{After (D1):}  
+If Jane \textbf{\{is/is NOT\}} GUILTY, how likely is it that the injuries found on Ben were not present when he was brought to the hospital?
+
+\medskip
+\textbf{After (D2):}  
+If Jane \textbf{\{is/is NOT\}} GUILTY, how likely is the absence of injuries such as petechiae in Ben?
+
+\medskip
+\textbf{After (D3):}  
+If Jane \textbf{\{is/is NOT\}} GUILTY, how likely is it that the spinal bleeding and dislocated ribs were found in Ben?
+
+\medskip
+\textbf{After (D4):}  
+If Jane \textbf{\{is/is NOT\}} GUILTY, how likely are the injuries found in Andy?
+
+\end{minipage}
+}
+\caption{Step-by-step (SBS) defense questions. Each query is issued immediately after the corresponding evidence item (D1–D4) is presented.}
+\label{fig:criminal_defense_sbs}
+\end{figure}
+
+
+
+
+\subsubsection{Prosecution Evidence}
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+
+\textbf{(P1)} The similarities between both incidents are striking: both babies were about the same age when they died; both died at a similar time of day after being fed; and both were found unconscious by Jane when she was alone with them.
+
+\medskip
+\textbf{(P2)} A doctor alleged that the hypoxic damage to Ben’s brain must have been caused a matter of hours before death.
+
+\medskip
+\textbf{(P3)} The hypoxic damage to Ben’s brain and the haemorrhages to the eyes and eyelids are consistent with smothering and/or other violent trauma.
+
+\medskip
+\textbf{(P4)} The bruises to the arms and legs, the torn frenulum, and blood in the lung found in the re-examination of Andy’s death are indicative of abuse and characteristic of smothering.
+
+\end{minipage}
+}
+\caption{Evidence pieces for the Prosecution side in the murder case. Each sub-entry corresponds to a distinct evidentiary claim.}
+\label{fig:criminal_prosecution_evidence}
+\end{figure}
+\newpage
+\subsubsection{Prosecution EOS Questions}
+
+In the EOS setting, the question in Figure \ref{fig:criminal_prosecution_eos} is prompted to the LLM immediately after all of the prosecution evidence in Figure \ref{fig:criminal_prosecution_evidence} is presented.
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+If Jane \textbf{\{is/is NOT\}} GUILTY, how likely are there to be these similarities between both incidents, the hypoxic damage to Ben’s brain was caused a matter of hours before death, the hypoxic damage to Ben’s brain and haemorrhages to the eyes and eyelids, and the bruises to the arms and legs, the torn frenulum, and blood in the lung in Andy?
+\end{minipage}
+}
+\caption{End-of-sequence (EOS) prosecution question, issued after all prosecution evidence is presented.}
+\label{fig:criminal_prosecution_eos}
+\end{figure}
+
+\subsubsection{Prosecution SBS Questions}
+
+In the SBS setting, the model is queried sequentially, immediately after each individual piece of prosecution evidence is presented. Each query conditions only on the evidence observed up to that point, enabling analysis of incremental belief updating rather than end-of-sequence aggregation.
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+
+\textbf{After (P1):}  
+If Jane \textbf{\{is/is NOT\}} GUILTY, how likely are there to be similarities between both incidents?
+
+\medskip
+\textbf{After (P2):}  
+If Jane \textbf{\{is/is NOT\}} GUILTY, how likely is it that the hypoxic damage to Ben’s brain was caused a matter of hours before death?
+
+\medskip
+\textbf{After (P3):}  
+If Jane \textbf{\{is/is NOT\}} GUILTY, how likely are the hypoxic damage to Ben’s brain and the haemorrhages to the eyes and eyelids?
+
+\medskip
+\textbf{After (P4):}  
+If Jane \textbf{\{is/is NOT\}} GUILTY, how likely are the bruises to the arms and legs, the torn frenulum, and the presence of blood in the lung in Andy?
+
+\end{minipage}
+}
+\caption{Step-by-step (SBS) prosecution questions. Each query is issued immediately after the corresponding evidence item (P1–P4) is presented.}
+\label{fig:criminal_prosecution_sbs}
+\end{figure}
+
+\subsubsection{Verdict Elicitation Prompt}
+
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+
+Please state your verdict for the defendant (Guilty / Not guilty).
+
+\end{minipage}
+}
+\caption{Prompt used to elicit the model’s final verdict.}
+\label{fig:criminal_verdict}
+\end{figure}
+
+\newpage
+\subsection{Academic Misconduct Setting}
+\subsubsection{Case Summary Prompt}
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+Lena is a third-year PhD student in a cognitive neuroscience lab. She is working on a high-profile experiment testing a new theory about memory. The study involves 80 participants, and her supervisor, Professor Mills, is under pressure to produce publishable findings before a major grant review.\\
+
+Lena runs the study and processes the data herself. The first draft of the paper reports strong, statistically significant support for the theory: the main effect is in the predicted direction with $p = .01$, and several secondary analyses also yield clean results. The paper is submitted to a top journal and receives enthusiastic initial reviews.\\
+
+However, concerns are raised after an anonymous whistleblower emails the department, claiming that some of Lena’s data look unusually consistent and that key analyses were changed after reviewers’ comments. An internal inquiry is opened into possible research misconduct, including fabrication or falsification of data.\\
+
+During the inquiry, multiple pieces of information emerge. Some patterns in the dataset and analysis history appear suspicious, but there are also plausible alternative explanations: the lab recently switched analysis software; some files are missing due to a hard drive failure; and Lena has a previously strong record of careful data handling.\\
+
+Lena maintains that any irregularities are the result of honest mistakes or miscommunication rather than intentional misconduct. The evaluation centers on whether Lena deliberately manipulated or fabricated data in this study, as opposed to the results being genuine and any errors being unintentional.
+\end{minipage}
+}
+\caption{Initial case summary prompt for the academic misconduct scenario.}
+\label{fig:academic_case_summary}
+\end{figure}
+
+\subsubsection{Academic Misconduct Defense Evidence}
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+
+\textbf{(D1)} The lab’s data management logs show that Lena ran and stored multiple alternative analysis scripts with varying exclusion criteria as part of a lab-wide effort to assess robustness. Other students in the lab exhibit similar patterns in their analysis scripts.
+
+\medskip
+\textbf{(D2)} Two participants in the original dataset reported falling asleep during the task or not understanding the instructions. Both participants were excluded based on notes in the raw data files, and these notes predate the journal submission.
+
+\medskip
+\textbf{(D3)} The lab switched from one statistical software package to another midway through the project, and several files were lost following a hard drive failure on Lena’s laptop. The IT department confirms that a hardware failure was reported and repaired during this period.
+
+\medskip
+\textbf{(D4)} Lena has no prior record of data irregularities. Her previous studies in the same lab passed an independent data audit conducted the year before, and her raw data and scripts were rated as well-documented and reproducible.
+
+\end{minipage}
+}
+\caption{Defense evidence for the academic misconduct case. Each sub-entry corresponds to a distinct evidentiary claim.}
+\label{fig:academic_defense_evidence}
+\end{figure}
+
+\newpage
+\subsubsection{Academic Defense EOS Questions}
+
+In the EOS setting, the questions in Figure \ref{fig:academic_defense_eos} are prompted to the LLM immediately after all defense evidence in Figure \ref{fig:academic_defense_evidence} is presented.
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+If Lena \textbf{\{did/did NOT\}} commit academic misconduct, how likely is it that the lab’s data management logs would show her running and storing multiple alternative analysis scripts with different exclusion criteria similar to other students, that two participants would be excluded based on notes predating the journal submission, that the lab would switch software mid-project and her laptop would suffer a confirmed hard drive failure leading to missing files, and that her previous studies would have passed an independent data audit and been rated as well-documented and reproducible?
+\end{minipage}
+}
+\caption{End-of-sequence (EOS) defense question for the academic misconduct case.}
+\label{fig:academic_defense_eos}
+\end{figure}
+
+\subsubsection{Academic Defense SBS Questions}
+
+In the SBS setting, the model is queried sequentially, immediately after each individual piece of defense evidence is presented. Each query conditions only on the evidence observed up to that point, allowing isolation of incremental belief updating.
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+
+\textbf{After (D1):}  
+If Lena \textbf{\{did/did NOT\}}  commit academic misconduct, how likely is it that the lab’s data management logs would show her running and storing multiple alternative analysis scripts with different exclusion criteria, similar to other students?
+
+\medskip
+\textbf{After (D2):}  
+If Lena \textbf{\{did/did NOT\}}  commit academic misconduct, how likely is it that two participants who reported falling asleep or not understanding the instructions would be excluded based on notes that predate the journal submission?
+
+\medskip
+\textbf{After (D3):}  
+If Lena \textbf{\{did/did NOT\}}  commit academic misconduct, how likely is it that the lab would switch software during the project and that Lena’s laptop would suffer a confirmed hard drive failure, leading to some missing files?
+
+\medskip
+\textbf{After (D4):}  
+If Lena \textbf{\{did/did NOT\}}  commit academic misconduct, how likely is it that her previous studies would have passed an independent data audit and been rated as well-documented and reproducible?
+
+\end{minipage}
+}
+\caption{Step-by-step (SBS) defense questions for the academic misconduct case. Each query is issued immediately after the corresponding evidence item (D1–D4) is presented.}
+\label{fig:academic_defense_sbs}
+\end{figure}
+
+\newpage
+\subsubsection{Academic Prosecution Evidence}
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+
+\textbf{(P1)} The final dataset exhibits an unusually high concentration of $p$-values just below the conventional significance threshold (e.g., $.047$, $.049$, $.041$) across several exploratory analyses, with very few $p$-values just above $.05$.
+
+\medskip
+\textbf{(P2)} File timestamps indicate that the preregistration document was modified after data collection had been completed, altering some planned exclusion criteria and primary outcomes.
+
+\medskip
+\textbf{(P3)} An earlier version of the analysis script, recovered from an automated backup, includes additional participants who were subsequently excluded from the final dataset.
+
+\medskip
+\textbf{(P4)} In private emails to a friend, Lena wrote that her supervisor was counting on the study to secure a grant, that a null result would severely harm her postdoctoral prospects, and that she needed the study to succeed.
+
+\end{minipage}
+}
+\caption{Prosecution evidence for the academic misconduct case. Each sub-entry corresponds to a distinct evidentiary claim.}
+\label{fig:academic_prosecution_evidence}
+\end{figure}
+
+\subsubsection{Academic Prosecution EOS Questions}
+
+In the EOS setting, the questions in Figure \ref{fig:academic_prosecution_eos} are prompted to the LLM immediately after all prosecution evidence in Figure \ref{fig:academic_prosecution_evidence} is presented.
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+If Lena \textbf{\{did/did NOT\}} commit academic misconduct, how likely is it that the final dataset would show an unusually high concentration of $p$-values just below $.05$ and very few just above $.05$, that the preregistration document would be modified after data collection to change exclusion criteria and primary outcomes, that an earlier analysis script would include participants who were later excluded from the final dataset, and that Lena would write emails stating that her supervisor was counting on the study, that a null result would harm her career prospects, and that she needed the study to succeed?
+\end{minipage}
+}
+\caption{End-of-sequence (EOS) prosecution question for the academic misconduct case.}
+\label{fig:academic_prosecution_eos}
+\end{figure}
+
+\subsubsection{Academic Prosecution SBS Questions}
+
+In the SBS setting, the model is queried sequentially, immediately after each individual piece of prosecution evidence is presented. Each query conditions only on the evidence observed up to that point, enabling analysis of incremental belief updating.
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+
+\textbf{After (P1):}  
+If Lena \textbf{\{did/did NOT\}} commit academic misconduct, how likely is it that the final dataset would show an unusually high concentration of $p$-values just below $.05$ and very few just above $.05$ across multiple analyses?
+
+\medskip
+\textbf{After (P2):}  
+If Lena \textbf{\{did/did NOT\}} commit academic misconduct, how likely is it that the preregistration document would be modified after data collection to change some exclusion criteria and primary outcomes?
+
+\medskip
+\textbf{After (P3):}  
+If Lena \textbf{\{did/did NOT\}} commit academic misconduct, how likely is it that an earlier analysis script would include participants who were later excluded from the final dataset?
+
+\medskip
+\textbf{After (P4):}  
+If Lena \textbf{\{did/did NOT\}} commit academic misconduct, how likely is it that she would write emails stating that her supervisor was counting on the study, that a null result would hurt her postdoctoral prospects, and that she needed the study to succeed?
+
+\end{minipage}
+}
+\caption{Step-by-step (SBS) prosecution questions for the academic misconduct case. Each query is issued immediately after the corresponding evidence item (P1–P4) is presented.}
+\label{fig:academic_prosecution_sbs}
+\end{figure}
+
+\subsubsection{Verdict Elicitation Prompt}
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+Please state whether you think Lena committed academic misconduct (Yes / No).
+\end{minipage}
+}
+\caption{Prompt used to elicit the model’s final verdict in the academic misconduct case.}
+\label{fig:academic_verdict}
+\end{figure}
+\newpage
+\subsection{Vandalism Case Setting}
+\subsubsection{Case Summary Prompt}
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+In a small open-plan office, the only shared printer suddenly stops working late in the afternoon. When employees attempt to print, the machine displays a critical hardware error and will not restart. The side panel is slightly ajar, and the paper tray is cracked.\\
+
+Alex, a mid-level employee who frequently uses this printer, becomes the focus of informal suspicion. Earlier in the day, Alex had complained about the printer repeatedly jamming, and at least one coworker recalls seeing Alex near the printer shortly before it stopped working. Later, small plastic fragments are found in the trash can beneath Alex’s desk.\\
+
+However, additional information complicates the situation. Building access logs show that Alex badged out of the office shortly before the time of the critical error recorded in the printer log, though the logs do not indicate the condition of the printer when Alex last used or approached it. Security footage also shows another coworker, Jamie, tugging forcefully on a jammed sheet of paper in the printer earlier that afternoon, but does not capture the final moments before the failure occurred.\\
+
+The building technician notes that this printer model has a known history of failure due to a defective fuser unit. Alex has also previously reported issues with office equipment. These background facts do not, on their own, establish whether the printer malfunction resulted from ordinary use, rough handling by one of the employees, or an underlying mechanical defect.\\
+
+Alex is being evaluated for whether their actions caused the printer to break (for example, through reckless or intentional handling), as opposed to the breakdown being attributable to ordinary use, another individual’s actions, or an underlying mechanical failure.
+\end{minipage}
+}
+\caption{Initial case summary prompt for the vandalism scenario.}
+\label{fig:vandalism_case_summary}
+\end{figure}
+
+\subsubsection{Vandalism Defense Evidence}
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+
+\textbf{(D1)} Building access logs show that Alex badged out of the office at 5:12 pm. The printer’s internal error log indicates that the critical hardware error occurred at 5:19 pm, seven minutes after Alex had left the building.
+
+\medskip
+\textbf{(D2)} Security camera footage from earlier that afternoon shows another coworker, Jamie, pulling repeatedly and somewhat forcefully on a jammed sheet of paper in the printer. Jamie is the last clearly visible person using the printer on the footage prior to the failure.
+
+\medskip
+\textbf{(D3)} The building technician reports that this printer model has a documented issue with its fuser unit. The same model has failed in a similar manner in two other departments within the past six months, in both cases without evidence of improper handling.
+
+\medskip
+\textbf{(D4)} Three days before the breakdown, Alex emailed facilities reporting that the printer was making a grinding noise and might require maintenance. In prior incidents involving broken office equipment, Alex has consistently reported problems promptly and cooperated with maintenance staff.
+
+\end{minipage}
+}
+\caption{Defense evidence for the vandalism case. Each sub-entry corresponds to a distinct evidentiary claim.}
+\label{fig:vandalism_defense_evidence}
+\end{figure}
+\newpage
+\subsubsection{Vandalism Defense EOS Questions}
+
+In the EOS setting, the questions in Figure \ref{fig:vandalism_defense_eos} are prompted to the LLM immediately after all defense evidence in Figure \ref{fig:vandalism_defense_evidence} is presented.
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+If Alex \textbf{\{did/did NOT\}} break the printer, how likely is it that he would have badged out of the building seven minutes before the critical error recorded in the printer’s log, that security camera footage would show Jamie pulling repeatedly and somewhat forcefully on a jammed sheet of paper earlier that afternoon, that the printer model would have a documented history of failing in the same way in other departments, and that Alex would have previously emailed facilities about a grinding noise and shown a pattern of promptly reporting equipment problems?
+\end{minipage}
+}
+\caption{End-of-sequence (EOS) defense question for the vandalism case.}
+\label{fig:vandalism_defense_eos}
+\end{figure}
+
+\subsubsection{Vandalism Defense SBS Questions}
+
+In the SBS setting, the model is queried sequentially, immediately after each individual piece of defense evidence is presented. Each query conditions only on the evidence observed up to that point, allowing analysis of incremental belief updating.
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+
+\textbf{After (D1):}  
+If Alex \textbf{\{did/did NOT\}} break the printer, how likely is it that he badged out of the building seven minutes before the critical error recorded in the printer’s log?
+
+\medskip
+\textbf{After (D2):}  
+If Alex \textbf{\{did/did NOT\}} break the printer, how likely is it that security camera footage would show Jamie pulling repeatedly and somewhat forcefully on a jammed sheet of paper in the printer earlier that afternoon?
+
+\medskip
+\textbf{After (D3):}  
+If Alex \textbf{\{did/did NOT\}} break the printer, how likely is it that this printer model would have a documented history of failing in the same way in other departments without evidence of improper handling?
+
+\medskip
+\textbf{After (D4):}  
+If Alex \textbf{\{did/did NOT\}} break the printer, how likely is it that he would have emailed facilities about a grinding noise days earlier and have a prior pattern of promptly reporting broken equipment?
+
+\end{minipage}
+}
+\caption{Step-by-step (SBS) defense questions for the vandalism case. Each query is issued immediately after the corresponding evidence item (D1–D4) is presented.}
+\label{fig:vandalism_defense_sbs}
+\end{figure}
+
+\subsubsection{Vandalism Prosecution Evidence}
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+
+\textbf{(P1)} A coworker reports seeing Alex standing directly next to the printer approximately five minutes before it stopped working, and did not observe anyone else approach the printer during that interval.
+
+\medskip
+\textbf{(P2)} Earlier that day, Alex posted in the team chat that the printer had jammed again and stated, “If it does this one more time I’m going to lose it.” Several coworkers reacted with laughing emojis.
+
+\medskip
+\textbf{(P3)} After the printer failure, facilities staff found small plastic fragments in the trash can under Alex’s desk. The technician notes that the fragments appear similar in color and texture to the broken edge of the printer’s paper tray, though an exact match was not confirmed.
+
+\medskip
+\textbf{(P4)} When first asked informally about the printer, Alex stated that they had not used it that day. In a later conversation, Alex revised their statement, saying that they might have printed something quickly earlier in the morning but were not certain.
+
+\end{minipage}
+}
+\caption{Prosecution evidence for the vandalism case. Each sub-entry corresponds to a distinct evidentiary claim.}
+\label{fig:vandalism_prosecution_evidence}
+\end{figure}
+
+\subsubsection{Vandalism Prosecution EOS Questions}
+
+In the EOS setting, the questions in Figure \ref{fig:vandalism_prosecution_eos} are prompted to the LLM immediately after all prosecution evidence in Figure \ref{fig:vandalism_prosecution_evidence} is presented.
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+If Alex \textbf{\{did/did NOT\}} break the printer, how likely is it that a coworker would see him standing next to the printer about five minutes before it stopped working with no one else approaching in that interval, that he would post in the team chat complaining about the printer and stating he was going to lose it if it jammed again, that plastic fragments similar in appearance to the broken tray would be found in the trash can under his desk, and that he would initially deny using the printer that day before later saying he might have printed something that morning?
+\end{minipage}
+}
+\caption{End-of-sequence (EOS) prosecution question for the vandalism case.}
+\label{fig:vandalism_prosecution_eos}
+\end{figure}
+
+\subsubsection{Vandalism Prosecution SBS Questions}
+
+In the SBS setting, the model is queried sequentially, immediately after each individual piece of prosecution evidence is presented. Each query conditions only on the evidence observed up to that point, enabling analysis of incremental belief updating.
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+
+\textbf{After (P1):}  
+If Alex \textbf{\{did/did NOT\}} break the printer, how likely is it that a coworker would see him standing next to the printer about five minutes before it stopped working, with no one else approaching in that interval?
+
+\medskip
+\textbf{After (P2):}  
+If Alex \textbf{\{did/did NOT\}} break the printer, how likely is it that he would have posted in the team chat complaining about the printer jamming and stating that he was going to lose it if it jammed again?
+
+\medskip
+\textbf{After (P3):}  
+If Alex \textbf{\{did/did NOT\}} break the printer, how likely is it that plastic fragments similar in appearance to the broken tray would be found in the trash can under his desk?
+
+\medskip
+\textbf{After (P4):}  
+If Alex \textbf{\{did/did NOT\}} break the printer, how likely is it that he would initially deny using the printer that day and later say that he might have printed something that morning?
+
+\end{minipage}
+}
+\caption{Step-by-step (SBS) prosecution questions for the vandalism case. Each query is issued immediately after the corresponding evidence item (P1–P4) is presented.}
+\label{fig:vandalism_prosecution_sbs}
+\end{figure}
+
+\subsubsection{Verdict Elicitation Prompt}
+
+\begin{figure}[ht!]
+\centering
+\fbox{%
+\begin{minipage}{0.85\linewidth}
+\ttfamily\small
+Please state whether you think Alex broke the printer (Yes / No).
+\end{minipage}
+}
+\caption{Prompt used to elicit the model’s final verdict in the vandalism case.}
+\label{fig:vandalism_verdict}
+\end{figure}
+
+\newpage
+\section{SbS-Compressed Ablation Results}
+\label{sec:compress_appendix}
+
+In the compressed SbS condition, after every two evidence blocks, all prior model responses are replaced with their trailing numeric score. This reduces accumulated context length while preserving the sequential query structure, serving as an ablation for the confound between response mode and prompt architecture, and more closely approximating human memory limitations by degrading access to earlier evidence. Table~\ref{tab:compress_verdicts} reports verdict proportions for the criminal misconduct setting under this condition.
+
+\begin{table}[ht!]
+\centering
+\caption{Verdict proportions for criminal misconduct under SbS-Compressed condition.}
+\label{tab:compress_verdicts}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lcc}
+\toprule
+Model & DP & PD \\
+\midrule
+GPT 4o          & 0.900 & 0.900 \\
+Gemini 2.5 Flash & 0.667 & 0.600 \\
+Claude 4 Sonnet (4-6)          & 0.033 & 0.233 \\
+Claude 4 Sonnet (4-20250514)   & 1.000 & 0.400 \\
+Meta Llama      & 0.133 & 0.100 \\
+Qwen            & 1.000 & 1.000 \\
+\bottomrule
+\end{tabular}}
+\caption*{\footnotesize \textbf{Note.} Proportions computed over 30 runs. No model shows a statistically significant shift in bias pattern relative to the standard SbS condition, consistent with the main finding that SbS order effects are not attributable to context length or prompt architecture.}
+\end{table}
+
+\end{document}
+
